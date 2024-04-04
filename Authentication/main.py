@@ -11,8 +11,8 @@ with app.app_context():
     db.create_all()
 
 @login_manager.user_loader
-def loader_user():
-    return db.session.get(Users)
+def loader_user(user_id):
+    return Users.query.get(user_id)
 
 @app.route('/checkauth', methods=['POST'])
 def Check_auth():
@@ -20,6 +20,10 @@ def Check_auth():
         return "user is authenticated", 200
     else:
         return "user not authenticated", 401
+    
+@app.route('/privilegecheck', methods=['GET'])
+def check_privilege():
+    pass
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -39,7 +43,12 @@ def add_user():
     db.session.add(new_user)
     db.session.commit()
     return "user created", 418
-    
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return "user logged out", 200
+
 
 if __name__ == "__main__":
     with app.app_context():
