@@ -16,12 +16,26 @@ def loader_user():
 
 @app.route('/checkauth', methods=['POST'])
 def Check_auth():
-    pass
-
+    if current_user.is_authenticated:
+        return "user is authenticated", 200
+    else:
+        return "user not authenticated", 401
 
 @app.route('/login', methods=['POST'])
 def login():
-    pass
+    username = request.form.get('username')
+    password = request.form.get('password') 
+
+@app.route('/adduser', methods=['POST'])
+def add_user():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    role = request.form.get('role')
+    new_user = Users(username=username, password=password, role=role)
+    db.session.add(new_user)
+    db.session.commit()
+    return "user created", 418
+    
 
 if __name__ == "__main__":
     with app.app_context():

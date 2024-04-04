@@ -6,6 +6,7 @@ in pkgs.mkShell {
             python-pkgs.flask
             python-pkgs.flask-cors
             python-pkgs.flask-sqlalchemy
+            python-pkgs.flask-login
         ]))
     ];
 } 
