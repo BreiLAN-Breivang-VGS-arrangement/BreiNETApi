@@ -27,5 +27,6 @@ database_file = os.path.join(current_dir, 'instance/database.sqlite')
 
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + database_file
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SECRET_KEY"] = 'My-secret-key'
 
 db = SQLAlchemy(app)

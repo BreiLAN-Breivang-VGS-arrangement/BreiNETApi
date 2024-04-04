@@ -12,7 +12,7 @@ with app.app_context():
 
 @login_manager.user_loader
 def loader_user():
-    return db.session.get(Users, user_id)
+    return db.session.get(Users)
 
 @app.route('/checkauth', methods=['POST'])
 def Check_auth():
@@ -23,8 +23,12 @@ def Check_auth():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password') 
+    user = Users.query.filter_by(username=request.form.get("username")).first()
+    if user and user.password == request.form.get("password"):
+        login_user(user)
+        return "Logged in successfuly", 200
+    else:
+        return "something went wrong", 401
 
 @app.route('/adduser', methods=['POST'])
 def add_user():
