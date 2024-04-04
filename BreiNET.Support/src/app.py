@@ -22,7 +22,7 @@ def login():
     pass
 
 @app.before_request(url_for('admin'))
-def loginState() -> bool:
+def loginState():
     if mod.loginState == False:
         return Flask.redirect(url_for('login'))
     elif mod.loginState == True:
