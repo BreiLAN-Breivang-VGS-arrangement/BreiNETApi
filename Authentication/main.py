@@ -51,8 +51,11 @@ def register():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    logout_user()
-    return "user logged out", 200
+    if current_user.is_authenticated:
+        logout_user()
+        return "user logged out", 200
+    else:
+        return "not logged in"
 
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
