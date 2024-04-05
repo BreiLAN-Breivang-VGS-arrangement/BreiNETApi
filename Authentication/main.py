@@ -64,8 +64,7 @@ def currentuser():
     else:
         return "user not logged in", 401
     
-
-
+    
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
