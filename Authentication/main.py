@@ -14,7 +14,7 @@ with app.app_context():
 def loader_user(user_id):
     return Users.query.get(user_id)
 
-@app.route('/checkauth', methods=['POST'])
+@app.route('/checkauth', methods=['GET'])
 def Check_auth():
     if current_user.is_authenticated:
         return "user is authenticated", 200
