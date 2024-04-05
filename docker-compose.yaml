@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  support:
+    build:
+      context: ./BreiNET.Support
+      dockerfile: Dockerfile
+    ports:
+      - target: 443
+        published: 8080
+        protocol: tcp
+        mode: host
+        host_ip: 127.0.0.1
+
+  auth:
+    build:
+      context: ./Authentication
+      dockerfile: Dockerfile
+    ports:
+      - target: 443
+        published: 8080
+        protocol: tcp
+        mode: host
+        host_ip: 127.0.0.2

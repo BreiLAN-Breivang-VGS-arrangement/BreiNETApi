@@ -2,3 +2,4 @@ flask
 SQLalchemy
 flask_cors
 python_dotenv
+gunicorn
