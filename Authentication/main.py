@@ -54,6 +54,10 @@ def logout():
     logout_user()
     return "user logged out", 200
 
+@app.route('/currentuser', methods=['GET'])
+def current_user():
+    return current_user.username
+
 
 if __name__ == "__main__":
     with app.app_context():
