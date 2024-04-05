@@ -2,6 +2,7 @@ from flask import request
 from flask_login import LoginManager, login_user, logout_user, current_user
 from config import app, db
 from models import Users
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 login_manager = LoginManager()
@@ -32,7 +33,8 @@ def check_privilege():
 @app.route('/login', methods=['POST'])
 def login():
     user = Users.query.filter_by(username=request.form.get("username")).first()
-    if user.password == request.form.get("password"):
+    password = request.form.get("password")
+    if check_password_hash(user.password, password):
         login_user(user)
         return "Logged in successfuly", 200
     else:
@@ -41,7 +43,7 @@ def login():
 @app.route('/register', methods=['POST'])
 def register():
     username = request.form.get('username')
-    password = request.form.get('password')
+    password = generate_password_hash(request.form.get('password'))
     clearance = request.form.get('clearance')
     new_user = Users(username=username, password=password, clearance=clearance)
     db.session.add(new_user)
