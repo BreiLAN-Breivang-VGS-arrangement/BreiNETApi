@@ -14,7 +14,6 @@ with app.app_context():
 def loader_user(user_id):
     return Users.query.get(user_id)
 
-@app.route('/checkauth', methods=['GET'])
 def Check_auth():
     if current_user.is_authenticated:
         return "user is authenticated", 200
@@ -23,7 +22,7 @@ def Check_auth():
     
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
-    if current_user.is_authenticated:
+    if Check_auth():
         clearance = current_user.clearance
         return f"{clearance}", 200
     else:
@@ -33,7 +32,7 @@ def check_privilege():
 @app.route('/login', methods=['POST'])
 def login():
     user = Users.query.filter_by(username=request.form.get("username")).first()
-    if user and user.password == request.form.get("password"):
+    if user.password == request.form.get("password"):
         login_user(user)
         return "Logged in successfuly", 200
     else:
@@ -51,7 +50,7 @@ def register():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    if current_user.is_authenticated:
+    if Check_auth():
         logout_user()
         return "user logged out", 200
     else:
@@ -59,12 +58,12 @@ def logout():
 
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
-    if current_user.is_authenticated:
+    if Check_auth():
         return current_user.username, 200
     else:
         return "user not logged in", 401
     
-    
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
