@@ -23,7 +23,12 @@ def Check_auth():
     
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
-    clearance = Users.clearance
+    if current_user.is_authenticated:
+        clearance = current_user.clearance
+        return f"{clearance}", 200
+    else:
+        return "User not authenticated", 401
+
 
 @app.route('/login', methods=['POST'])
 def login():
