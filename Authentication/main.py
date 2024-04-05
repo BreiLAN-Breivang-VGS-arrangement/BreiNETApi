@@ -55,8 +55,12 @@ def logout():
     return "user logged out", 200
 
 @app.route('/currentuser', methods=['GET'])
-def current_user():
-    return current_user.username
+def currentuser():
+    if current_user.is_authenticated:
+        return current_user.username, 200
+    else:
+        return "user not logged in", 401
+    
 
 
 if __name__ == "__main__":
