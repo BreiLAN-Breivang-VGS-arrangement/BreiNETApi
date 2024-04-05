@@ -21,6 +21,7 @@ services:
       - 443
     
   auth:
+    restart: always
     build:
       context: ./Authentication
       dockerfile: dockerfile
@@ -30,6 +31,9 @@ services:
         protocol: tcp
         mode: host
         host_ip: 127.0.0.2
+    expose:
+      - 443
+    
 
   tournaments:
     build:
@@ -51,7 +55,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: admin
     volumes:
-      - ./database/db.sql
+      - ./database/db.sql:/initdb.d/db.sql
 
   adminer:
     image: adminer

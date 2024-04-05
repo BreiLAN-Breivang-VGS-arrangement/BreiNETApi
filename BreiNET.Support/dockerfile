@@ -1,2 +1,7 @@
-FROM python:latest
+FROM python:latest as builder
+WORKDIR /init
+CMD [ "pip install -r requirements.txt" ]
 
+
+FROM python:latest
+WORKDIR /app
