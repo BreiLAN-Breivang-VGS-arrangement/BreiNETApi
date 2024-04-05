@@ -3,23 +3,58 @@ version: '3'
 services:
 
   support:
+    restart: always
+    depends_on:
+      - db
+      - auth
+
     build:
       context: ./BreiNET.Support
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - target: 443
         published: 8080
         protocol: tcp
         mode: host
         host_ip: 127.0.0.1
-
+    expose:
+      - 443
+    
   auth:
     build:
       context: ./Authentication
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
     ports:
       - target: 443
         published: 8080
         protocol: tcp
         mode: host
         host_ip: 127.0.0.2
+
+  tournaments:
+    build:
+      context: ./Tournaments
+      dockerfile: dockerfile
+    
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: admin
+    volumes:
+      - ./database/db.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
