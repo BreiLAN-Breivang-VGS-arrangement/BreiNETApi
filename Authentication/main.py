@@ -1,7 +1,7 @@
 from flask import request 
 from flask_login import LoginManager, login_user, logout_user, current_user
-from config import app, db
-from models import Users
+from src.config import app, db
+from src.models import Users
 from werkzeug.security import generate_password_hash, check_password_hash
 
 

@@ -22,7 +22,7 @@ def database_URI():
 
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
-database_file = os.path.join(current_dir, 'instance/database.sqlite')
+database_file = os.path.join(current_dir, '../instance/database.sqlite')
 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///' + database_file
