@@ -23,7 +23,7 @@ def Check_auth():
     
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
-    pass
+    clearance = Users.clearance
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -34,12 +34,12 @@ def login():
     else:
         return "something went wrong", 401
 
-@app.route('/adduser', methods=['POST'])
-def add_user():
+@app.route('/register', methods=['POST'])
+def register():
     username = request.form.get('username')
     password = request.form.get('password')
-    role = request.form.get('role')
-    new_user = Users(username=username, password=password, role=role)
+    clearance = request.form.get('clearance')
+    new_user = Users(username=username, password=password, clearance=clearance)
     db.session.add(new_user)
     db.session.commit()
     return "user created", 418
