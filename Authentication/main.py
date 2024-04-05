@@ -1,5 +1,5 @@
-from flask import request, jsonify, Flask
-from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
+from flask import request 
+from flask_login import LoginManager, login_user, logout_user, current_user
 from config import app, db
 from models import Users
 
