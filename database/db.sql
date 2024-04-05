@@ -1,3 +1,5 @@
+CREATE DATABASE breiNETApi;
+
 CREATE TABLE ticket (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -6,6 +8,7 @@ CREATE TABLE ticket (
     location VARCHAR(255) NOT NULL,
     severity INTEGER NOT NULL,
     result VARCHAR(255) NOT NULL,
+    date_added CURRENT_TIMESTAMP,
 );
 
 CREATE TABLE users (
@@ -17,8 +20,8 @@ CREATE TABLE users (
 
 CREATE TABLE tournaments (
     id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL,
-    time CURRENT_TIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(255) NOT NULL,
+    time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     host VARCHAR(255) NOT NULL,
-    link VARCHAR(255),
+    link VARCHAR(255)
 );
