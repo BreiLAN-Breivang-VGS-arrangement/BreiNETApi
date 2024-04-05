@@ -56,7 +56,7 @@ def logout():
         logout_user()
         return "user logged out", 200
     else:
-        return "not logged in"
+        return "not logged in", 401
 
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
