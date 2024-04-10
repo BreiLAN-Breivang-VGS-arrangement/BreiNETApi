@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import platform, sys, os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/login": {"origins" : "http://localhost:5173"}})
 
 # Function to automatically adjust path to database on systems like, windows, arch, and debian etc.
 """
