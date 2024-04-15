@@ -24,9 +24,16 @@ def Create_Tournament():
     db.session.commit()
     return "Tournament created", 418
 
-@app.route('/delete/<int:user_id>', methods=['DELETE'])
-def delete_tournament(user_id):
-        
+@app.route('/delete_tournament/<int:tournament_id>', methods=['DELETE'])
+def delete_tournament(tournament_id):
+    tournament = Tournaments.query.get(tournament_id)
+
+    if not tournament:
+        return "Tournament does not exist", 400
+    else:
+        db.session.delete(tournament)
+        db.session.commit()
+        return "Tournament deleted", 200
 
 if __name__ == "__main__":
     with app.app_context():
