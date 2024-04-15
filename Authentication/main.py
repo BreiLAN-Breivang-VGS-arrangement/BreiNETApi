@@ -36,8 +36,6 @@ def login():
     password = request.form.get("password")
     if check_password_hash(user.password, password):
         login_user(user)
-        response = ("Logged in successfuly", 200)
-        headers = {'Access-Control-Allow-Origin' : '*'}
         return "Logged in successfuly", 200
     else:
         return "something went wrong", 401
