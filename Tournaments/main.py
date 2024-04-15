@@ -22,7 +22,7 @@ def Create_Tournament():
     new_tourney = Tournaments(name=name, time=time, date=date, host=host, link=link)
     db.session.add(new_tourney)
     db.session.commit()
-    return "Tournament created", 418
+    return "Tournament created", 200
 
 @app.route('/delete_tournament/<int:tournament_id>', methods=['DELETE'])
 def delete_tournament(tournament_id):
@@ -34,6 +34,24 @@ def delete_tournament(tournament_id):
         db.session.delete(tournament)
         db.session.commit()
         return "Tournament deleted", 200
+
+@app.route('/update_tournament/<int:tournament_id>', methods=['PATCH'])
+def update_tournament(tournament_id):
+    tournament = Tournaments.query.get(tournament_id)
+    
+    if not tournament:
+        return "A tournament with the given id does not exist", 400
+    
+    data = request.form
+    tournament.name = data.get("firstName", tournament.name)
+    tournament.time = data.get("lastName", tournament.time)
+    tournament.date = data.get("email", tournament.date)
+    tournament.host = data.get("email", tournament.host)
+    tournament.link = data.get("email", tournament.link)
+    
+    db.session.commit()
+
+    return "Tournament successfully modified", 200
 
 if __name__ == "__main__":
     with app.app_context():
