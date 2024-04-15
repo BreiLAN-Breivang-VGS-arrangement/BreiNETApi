@@ -1,5 +1,5 @@
 from flask import request, session
-from flask_login import LoginManager, login_user, logout_user, current_user
+from flask_login import LoginManager
 from src.config import app, db
 from src.models import Users
 from werkzeug.security import generate_password_hash, check_password_hash
