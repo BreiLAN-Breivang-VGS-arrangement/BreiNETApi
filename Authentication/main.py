@@ -1,5 +1,5 @@
-from flask import request 
-from flask_login import LoginManager, login_user, logout_user, current_user
+from flask import request, session
+from flask_login import LoginManager
 from src.config import app, db
 from src.models import Users
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,15 +16,17 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 def Check_auth():
-    if current_user.is_authenticated:
-        return "user is authenticated", 200
+    if session.get('username') != None :
+        return True
     else:
-        return "user not authenticated", 401
+        return False
     
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
     if Check_auth():
-        clearance = current_user.clearance
+        username = session.get('username')
+        user = Users.query.filter_by(username=username).first()
+        clearance = user.clearance
         return f"{clearance}", 200
     else:
         return "User not authenticated", 401
@@ -32,12 +34,11 @@ def check_privilege():
 
 @app.route('/login', methods=['POST'])
 def login():
-    user = Users.query.filter_by(username=request.form.get("username")).first()
+    username = request.form.get("username")
+    user = Users.query.filter_by(username=username).first()
     password = request.form.get("password")
     if check_password_hash(user.password, password):
-        login_user(user)
-        response = ("Logged in successfuly", 200)
-        headers = {'Access-Control-Allow-Origin' : '*'}
+        session['username'] = username
         return "Logged in successfuly", 200
     else:
         return "something went wrong", 401
@@ -55,7 +56,7 @@ def register():
 @app.route('/logout', methods=['POST'])
 def logout():
     if Check_auth():
-        logout_user()
+        session.pop('username', None)
         return "user logged out", 200
     else:
         return "not logged in", 401
@@ -63,9 +64,9 @@ def logout():
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
     if Check_auth():
-        return current_user.username, 200
+        return f"{session.get('username')}", 200
     else:
-        return "user not logged in", 401
+        return "No user authenticated in current session", 401
     
 
 if __name__ == "__main__":
