@@ -24,7 +24,9 @@ def Check_auth():
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
     if Check_auth():
-        clearance = current_user.clearance
+        username = session.get('username')
+        user = Users.query.filter_by(username=username).first()
+        clearance = user.clearance
         return f"{clearance}", 200
     else:
         return "User not authenticated", 401
