@@ -17,9 +17,9 @@ def loader_user(user_id):
 
 def Check_auth():
     if session.get('username') != None :
-        return "user is authenticated", 200
+        return True
     else:
-        return "user not authenticated", 401
+        return False
     
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
@@ -62,9 +62,9 @@ def logout():
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
     if Check_auth():
-        return session.get('username'), 200
+        return f"{session.get('username')}", 200
     else:
-        return "user not logged in", 401
+        return "No user authenticated in current session", 401
     
 
 if __name__ == "__main__":
