@@ -1,10 +1,16 @@
-from flask import request
+from flask import request, jsonify
 from src.config import app, db
 from src.models import Tournaments
 import requests
 
 with app.app_context():
     db.create_all()
+
+@app.route('/fetchtourney', methods=['GET'])
+def fetchtourney():
+    tournaments = Tournaments.query.all()
+    json_tournaments = list(map(lambda x: x.to_json(), tournaments))
+    return jsonify({"tournaments": json_tournaments})
 
 @app.route('/createtourney', methods=['POST'])
 def Create_Tournament():
@@ -18,6 +24,9 @@ def Create_Tournament():
     db.session.commit()
     return "Tournament created", 418
 
+@app.route('/delete/<int:user_id>', methods=['DELETE'])
+def delete_tournament(user_id):
+        
 
 if __name__ == "__main__":
     with app.app_context():

@@ -1,4 +1,4 @@
-from config import db
+from .config import db
 
 class Tournaments(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -7,3 +7,13 @@ class Tournaments(db.Model):
     date = db.Column(db.String, unique=False, nullable=False)
     host = db.Column(db.String, unique=False, nullable=False)
     link = db.Column(db.String, unique=False, nullable=False)
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "time": self.time,
+            "date": self.date,
+            "host": self.host,
+            "link": self.link,
+        }
