@@ -1,4 +1,4 @@
-from flask import request 
+from flask import request, session
 from flask_login import LoginManager, login_user, logout_user, current_user
 from src.config import app, db
 from src.models import Users
@@ -16,7 +16,7 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 def Check_auth():
-    if current_user.is_authenticated:
+    if session.get('username') != None :
         return "user is authenticated", 200
     else:
         return "user not authenticated", 401
@@ -32,10 +32,11 @@ def check_privilege():
 
 @app.route('/login', methods=['POST'])
 def login():
-    user = Users.query.filter_by(username=request.form.get("username")).first()
+    username = request.form.get("username")
+    user = Users.query.filter_by(username=username).first()
     password = request.form.get("password")
     if check_password_hash(user.password, password):
-        login_user(user)
+        session['username'] = username
         return "Logged in successfuly", 200
     else:
         return "something went wrong", 401
@@ -53,7 +54,7 @@ def register():
 @app.route('/logout', methods=['POST'])
 def logout():
     if Check_auth():
-        logout_user()
+        session.pop('username', None)
         return "user logged out", 200
     else:
         return "not logged in", 401
@@ -61,7 +62,7 @@ def logout():
 @app.route('/currentuser', methods=['GET'])
 def currentuser():
     if Check_auth():
-        return current_user.username, 200
+        return session.get('username'), 200
     else:
         return "user not logged in", 401
     
