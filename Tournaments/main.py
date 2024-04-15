@@ -1,6 +1,6 @@
 from flask import request
-from config import app, db
-from models import Tournaments
+from src.config import app, db
+from src.models import Tournaments
 import requests
 
 with app.app_context():
