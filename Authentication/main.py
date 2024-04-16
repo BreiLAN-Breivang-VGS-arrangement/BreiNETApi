@@ -16,7 +16,7 @@ def loader_user(user_id):
     return Users.query.get(user_id)
 
 def Check_auth():
-    if session.get('username') != None :
+    if session.get('username') != None:
         return True
     else:
         return False
