@@ -15,6 +15,7 @@ with app.app_context():
 def loader_user(user_id):
     return Users.query.get(user_id)
 
+@app.route('checkauth', methods=['GET'])
 def Check_auth():
     if session.get('username') != None:
         return True
