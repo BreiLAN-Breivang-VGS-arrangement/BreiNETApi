@@ -22,9 +22,12 @@ def Check_auth():
     else:
         return False
 
-@app.route('checkauth', methods=['GET'])
+@app.route('/send_auth', methods=['GET'])
 def send_auth():
-    pass
+    if Check_auth():
+        return "true", 200
+    else:
+            return "false", 401
 
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
