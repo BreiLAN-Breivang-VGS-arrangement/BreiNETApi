@@ -15,13 +15,17 @@ with app.app_context():
 def loader_user(user_id):
     return Users.query.get(user_id)
 
-@app.route('checkauth', methods=['GET'])
+
 def Check_auth():
     if session.get('username') != None:
         return True
     else:
         return False
-    
+
+@app.route('checkauth', methods=['GET'])
+def send_auth():
+    pass
+
 @app.route('/privilegecheck', methods=['GET'])
 def check_privilege():
     if Check_auth():
